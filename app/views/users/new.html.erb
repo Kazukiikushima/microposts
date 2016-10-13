@@ -11,15 +11,6 @@
       <%= f.label :email %>
       <%= f.email_field :email, class: 'form-control' %>
       
-      <%= f.label :place %>
-      <%= f.text_field :place, class: 'form-control' %>
-
-      <%= f.label :birthday %>
-      <%= f.date_select(:birthday, {:use_month_numbers=>true, :start_year=>1930, :end_year => Time.now.year, :default =>'1990-1-1'.to_date}, {:class => ["form-control", "inline_date_select"]})  %>
-      
-      <%= f.label :comment %>
-      <%= f.text_area :comment, class: 'form-control' %>
-
       <%= f.label :password %>
       <%= f.password_field :password, class: 'form-control' %>
 
