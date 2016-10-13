@@ -1,16 +1,30 @@
-<h1>
-  <%= gravatar_for @user %>
-  <%= @user.name %>
-</h1>
-<br>
-
-<h2>プロフィール一覧</h2>
-  メールアドレス:<%= @user.email %>
-  <br><br>
-  地域:<%= @user.place %>
-  <br><br>
-  誕生日:<%= @user.birthday %>
-  <br><br>
-  コメント:<%= @user.comment %>
-  <br><br>
-  <%= link_to "edit" , edit_user_path(@user) %>
+<div class="row">
+  <aside class="col-md-4">
+    <section class="user_info">
+      <h1>
+        <%= gravatar_for @user %>
+        <%= @user.name %>
+      </h1>
+            <br><br><br><br>
+         プロフィール一覧
+            <br><br>
+         メールアドレス:<%= @user.email %>
+            <br><br>
+         地域:<%= @user.place %>
+            <br><br>
+         誕生日:<%= @user.birthday %>
+            <br><br>
+         コメント:<%= @user.comment %>
+            <br><br>
+         <%= link_to "edit" , edit_user_path(@user) %>
+    </section>
+  </aside>
+  <div class="col-md-8">
+    <% if @user.microposts.any? %>
+      <h3>Microposts (<%= @user.microposts.count %>)</h3>
+      <ol class="microposts">
+        <%= render @microposts %>
+      </ol>
+    <% end %>
+  </div>
+</div>
