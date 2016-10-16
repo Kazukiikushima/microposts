@@ -16,7 +16,9 @@
             <br><br>
          コメント:<%= @user.comment %>
             <br><br>
-         <%= link_to "edit" , edit_user_path(@user) %>
+         <%= link_to "edit" , edit_user_path(@user) %><br><br>
+         <%= link_to "フォロー" , following_url %><br><br>
+         <%= link_to "フォロワー" , follower_url %>
     </section>
   </aside>
   <div class="col-md-8">
