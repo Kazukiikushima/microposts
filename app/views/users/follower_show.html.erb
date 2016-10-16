@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h1>フォロー</h1>
+    <h1>フォロワー</h1>
 </div>
 <div class="list-group">
     <% @users.each do |user| %>
@@ -8,5 +8,5 @@
         <span><%= link_to "view profile", user %></span>
         <br><br><br><br><br><br>
     <% end %>
-    <span><%= link_to "戻る", current_user %></span>
+    <span><%= link_to "戻る", @user %></span>
 </div>

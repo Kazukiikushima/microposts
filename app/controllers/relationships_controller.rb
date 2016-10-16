@@ -11,12 +11,4 @@ class RelationshipsController < ApplicationController
     current_user.unfollow(@user)
   end
   
-  def following_show
-    @users = current_user.following_users if logged_in?
-  end
-  
-  def follower_show
-    @users = current_user.follower_users if logged_in?
-  end
-  
 end
