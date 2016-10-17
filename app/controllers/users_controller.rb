@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :update, :show, :following_show, :follower_show]
+  before_action :set_user, only: [:edit, :update, :show, :followings, :followers]
   before_action :logged_in_user, only: [:edit, :update]
   
   def show # 追加
@@ -37,12 +37,12 @@ class UsersController < ApplicationController
     end
   end
   
-  def following_show
-    @users = @user.following_users if logged_in?
+  def followings
+    @users = @user.following_users
   end
   
-  def follower_show
-    @users = @user.follower_users if logged_in?
+  def followers
+     @users = @user.following_users
   end
 
   private

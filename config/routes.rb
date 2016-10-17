@@ -9,8 +9,8 @@ Rails.application.routes.draw do
   
   resources :users do
     member do
-      get 'following_show'
-      get 'follower_show'
+      get 'followings'
+      get 'followers'
     end
   end
   
