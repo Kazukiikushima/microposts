@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  paginates_per 10
+  
     before_save { self.email = self.email.downcase }
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -35,6 +37,24 @@ class User < ActiveRecord::Base
   
   def feed_items
     Micropost.where(user_id: following_user_ids + [self.id])
+  end
+  
+  has_many :favorite_relationships, class_name:  "Favorite",
+                                     foreign_key: "favo_id",
+                                     dependent:   :destroy
+  has_many :favorite_microposts, through: :favorite_relationships, source: :favoed
+  
+  def favorite(micropost)
+    favorite_relationships.find_or_create_by(favoed_id: micropost.id)
+  end
+  
+  def unfavorite(micropost)
+    favotite_relationship = favorite_relationships.find_by(favoed_id: micropost.id)
+    favorite_relationships.destroy if favotite_relationship
+  end
+
+  def favorite?(micropost)
+    favorite_microposts.include?(micropost)
   end
   
 end

@@ -11,12 +11,14 @@ Rails.application.routes.draw do
     member do
       get 'followings'
       get 'followers'
+      get 'favorites'
     end
   end
   
   resources :microposts
-  
+
   resources :relationships, only: [:create, :destroy]
+  resources :favorites, only: [:create, :destroy]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

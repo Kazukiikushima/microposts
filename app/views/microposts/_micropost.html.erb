@@ -8,5 +8,10 @@
       <%= link_to "delete", micropost, method: :delete,
                                        data: { confirm: "You sure?" } %>
     <% end %>
+    <% if current_user.favorite?(micropost) %>
+          <%= link_to "unfavo", favorite_path(current_user.favorite_relationships.find_by(favoed_id: micropost.id)), method: :delete %>
+    <% else %>
+          <%= link_to "favo", favorites_path(favoed_id: micropost.id), method: :post %>
+    <% end %>
   </span>
 </li>

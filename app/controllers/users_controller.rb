@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :update, :show, :followings, :followers]
+  before_action :set_user, only: [:edit, :update, :show, :followings, :followers, :favorites]
   before_action :logged_in_user, only: [:edit, :update]
   
   def show # 追加
     @user = User.find(params[:id])
-    @microposts = @user.microposts.order(created_at: :desc)
+    @microposts = @user.microposts.page(params[:page]).per(10).order(created_at: :desc)
   end
   
   def new
@@ -42,7 +42,11 @@ class UsersController < ApplicationController
   end
   
   def followers
-     @users = @user.following_users
+     @users = @user.follower_users
+  end
+  
+  def favorites
+     @microposts = @user.favorite_microposts
   end
 
   private
