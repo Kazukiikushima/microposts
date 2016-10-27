@@ -8,4 +8,15 @@ class Micropost < ActiveRecord::Base
                                      dependent:   :destroy
   has_many :favorite_users, through: :favorited_relationships, source: :favo
   
+  has_many :retweets, dependent:   :destroy
+  has_many :retweet_users, through: :retweets, source: :user
+  
+  has_many :retweeted_microposts,class_name:'Micropost',
+                                 foreign_key: "retweet_id",
+                                 dependent:   :destroy
+                      
+  belongs_to :retweet_micropost,class_name:'Micropost',
+                                 foreign_key: "retweet_id"
+                        
+  
 end

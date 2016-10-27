@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161020071822) do
+ActiveRecord::Schema.define(version: 20161024132014) do
 
   create_table "favorites", force: :cascade do |t|
     t.integer  "favo_id"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20161020071822) do
     t.text     "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "retweet_id"
   end
 
   add_index "microposts", ["user_id", "created_at"], name: "index_microposts_on_user_id_and_created_at"
@@ -44,6 +45,17 @@ ActiveRecord::Schema.define(version: 20161020071822) do
   add_index "relationships", ["followed_id"], name: "index_relationships_on_followed_id"
   add_index "relationships", ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
   add_index "relationships", ["follower_id"], name: "index_relationships_on_follower_id"
+
+  create_table "retweets", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "micropost_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "retweets", ["micropost_id", "user_id"], name: "index_retweets_on_micropost_id_and_user_id", unique: true
+  add_index "retweets", ["micropost_id"], name: "index_retweets_on_micropost_id"
+  add_index "retweets", ["user_id"], name: "index_retweets_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

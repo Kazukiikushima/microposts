@@ -1,3 +1,5 @@
+<% if micropost.retweet_id == nil %>
+
 <li id="micropost-<%= micropost.id %>">
   <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
   <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
@@ -13,5 +15,43 @@
     <% else %>
           <%= link_to "favo", favorites_path(favoed_id: micropost.id), method: :post %>
     <% end %>
+    <% if current_user.retweeting?(micropost) %>
+          <%= link_to "unretweet", unretweeted_micropost_path(micropost.id), method: :post %>
+    <% else %>
+          <%= link_to "retweet", retweeted_micropost_path(micropost.id), method: :post %>
+    <% end %>,
+    <% retweet_number = micropost.retweet_users.count %>
+    <%= link_to "#{retweet_number}リツイート",retweet_user_micropost_path(micropost.id), method: :get %>
   </span>
 </li>
+
+<% elsif %>
+<% retweet_micropost = Micropost.find_by(id: micropost.retweet_id) %>
+<li id="micropost-<%= micropost.id %>">
+  <%= link_to gravatar_for(retweet_micropost.user, size: 50), retweet_micropost.user %>
+  <span class="user"><%= link_to "#{retweet_micropost.user.name}(#{micropost.user.name}がリツイート)", retweet_micropost.user %></span>
+  
+  <span class="content"><%= retweet_micropost.content %></span>
+  <span class="timestamp">
+    Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+    <% if current_user == micropost.user %>
+      <%= link_to "delete", micropost, method: :delete,
+                                       data: { confirm: "You sure?" } %>
+    <% end %>
+    <% if current_user.favorite?(retweet_micropost) %>
+          <%= link_to "unfavo", favorite_path(current_user.favorite_relationships.find_by(favoed_id: retweet_micropost.id)), method: :delete %>
+    <% else %>
+          <%= link_to "favo", favorites_path(favoed_id: retweet_micropost.id), method: :post %>
+    <% end %>
+    <% if current_user.retweeting?(retweet_micropost) %>
+          <%= link_to "unretweet", unretweeted_micropost_path(retweet_micropost.id), method: :post %>
+    <% else %>
+          <%= link_to "retweet", retweeted_micropost_path(retweet_micropost.id), method: :post %>
+    <% end %>,
+    <% retweet_number = retweet_micropost.retweet_users.count %>
+    <%= link_to "#{retweet_number}リツイート",retweet_user_micropost_path(retweet_micropost.id), method: :get %>
+
+  </span>
+</li>
+
+<% end %>

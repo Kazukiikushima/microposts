@@ -15,7 +15,14 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :microposts
+  resources :microposts do
+    member do
+      post 'retweeted'
+      post 'unretweeted'
+      get 'retweet_user'
+    end
+  end
+      
 
   resources :relationships, only: [:create, :destroy]
   resources :favorites, only: [:create, :destroy]

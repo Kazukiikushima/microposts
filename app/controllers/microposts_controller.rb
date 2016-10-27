@@ -1,4 +1,5 @@
 class MicropostsController < ApplicationController
+    PER = 10
     before_action :logged_in_user, only: [:create]
 
   def create
@@ -7,7 +8,7 @@ class MicropostsController < ApplicationController
       flash[:success] = "Micropost created!"
       redirect_to root_url
     else
-      @feed_items = current_user.feed_items.includes(:user).order(created_at: :desc)
+      @feed_items = current_user.feed_items.includes(:user).page(params[:page]).per(PER).order(created_at: :desc)
       render 'static_pages/home'
     end
   end
@@ -18,6 +19,25 @@ class MicropostsController < ApplicationController
     @micropost.destroy
     flash[:success] = "Micropost deleted"
     redirect_to request.referrer || root_url
+  end
+  
+  def retweeted
+     @micropost = Micropost.find(params[:id])
+     current_user.retweeting(@micropost)
+     current_user.retwi(@micropost)
+     redirect_to root_url
+  end
+  
+  def unretweeted
+    @micropost = @micropost = Micropost.find(params[:id])
+    current_user.unretweeting(@micropost)
+    current_user.unretwi(@micropost)
+    redirect_to root_url
+  end
+  
+  def retweet_user
+     @micropost = Micropost.find(params[:id])
+     @users = @micropost.retweet_users
   end
   
   private
